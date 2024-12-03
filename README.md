@@ -35,4 +35,4 @@ Eclipse EE or equivalent is required to develop (or be good installing plugins)
 
 ## Contributors
 
-Kévin BERNARD, Aldric VITALI SILVESTRE, Nicolas CIBULKA, Quitterie PILON, Enzo KALINOWSKI, Aladdine BEN ROMDHANE
+Kévin BERNARD, Aldric VITALI SILVESTRE, Nicolas CIBULKA, Quitterie PILON, Aladdine BEN ROMDHANE, Enzo KALINOWSKI
