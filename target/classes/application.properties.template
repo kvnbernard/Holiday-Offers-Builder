@@ -1,0 +1,13 @@
+jdbc.driver=mysql
+jdbc.name=agp_db
+jdbc.port=3306
+jdbc.host=localhost
+
+jdbc.user=agp_user
+jdbc.password=agp_password
+
+lucene.index.path=/home/nico/eclipse-workspace/AGP-core
+
+bde.table=site
+bde.index.column=name
+bde.folder.path=Test
