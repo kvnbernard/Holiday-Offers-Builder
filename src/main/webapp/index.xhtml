@@ -1,0 +1,55 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>AGP Dream team plus plus</title>
+</h:head>
+<h:body>
+	<h2>Search a Trip</h2>
+	<fieldset>
+		<legend>Research settings</legend>
+		<h:form>
+			Key words :
+                <h:inputText value="#{tripEntryBean.keywords}" size="60" />
+			<br />
+                 Price: 
+                 <h:outputLabel value="Mininmum:" />
+			<p:spinner value="#{tripEntryBean.minPrice}" size="3"
+				min="#{tripEntryBean.minimumPrice}" />
+			<h:outputLabel value="Maximum:" />
+			<p:spinner value="#{tripEntryBean.maxPrice}" min="0" max="#{tripEntryBean.maximumPrice}" size="5"
+				 />
+			<br />
+			<h:outputLabel value="Comfort:" />
+			<p:spinner value="#{tripEntryBean.comfort}" stepFactor="0.1" min="0"
+				max="5" size="2" />
+
+			<br />
+                Number of days:
+				<p:spinner value="#{tripEntryBean.nbDays}" min="0" max="#{tripEntryBean.maximumNbDays}"
+				 size="2" />
+			<br />
+		Sort by:
+		<h:selectOneMenu value="#{tripEntryBean.filterBy}">
+				<f:selectItem itemValue="GLOBAL" />
+				<f:selectItem itemValue="PRICE_ASCENDING" />
+				<f:selectItem itemValue="PRICE_DECSCENDING" />
+				<f:selectItem itemValue="COMFORT_ASCENDING" />
+				<f:selectItem itemValue="COMFORT_DECSCENDING" />
+			</h:selectOneMenu>
+			<br />
+
+			<h:commandButton value="Search"
+				actionListener="#{tripEntryBean.displayError}"
+				action="#{tripEntryBean.search}" update="tripEntryBean" />
+		</h:form>
+	</fieldset>
+
+
+</h:body>
+
+</html>

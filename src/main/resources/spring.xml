@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd" xmlns:context="http://www.springframework.org/schema/context">
+
+	<!-- Only to handle application.properties file-->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>application.properties</value>
+		</property>
+	</bean>
+
+	<!-- Config beans, to inject application.properties in non spring-related classes -->
+	<bean id="luceneConfig" class="persistence.config.LuceneConfig">
+		<property name="pathIndex" value="${lucene.index.path}" />
+	</bean>
+
+	<bean id="jdbcConfig" class="persistence.config.JdbcConfig">
+		<property name="databaseName" value="${jdbc.name}" />
+		<property name="port" value="${jdbc.port}" />
+		<property name="host" value="${jdbc.host}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean id="bdeConfig" class="persistence.config.BdeConfig">
+		<property name="table" value="${bde.table}" />
+		<property name="indexColumn" value="${bde.index.column}" />
+		<property name="folder" value="${bde.folder.path}" />
+	</bean>
+
+	<!-- JSF-related beans -->
+	<bean id="databaseInitializer" class="listeners.DatabaseInitializer">
+		<property name="bdeConfig" ref="bdeConfig"/>
+		<property name="jdbcConfig" ref="jdbcConfig"/>
+		<property name="luceneConfig" ref="luceneConfig"/>
+		<property name="databaseManager" ref="databaseManager"/>
+	</bean>
+
+	<!-- Business beans -->
+	<bean id="bestTripFinder" class="business.trip_finder.best_trip_finder.BestTripFinderImpl">
+		<property name="parametersTweaker" ref="parametersTweaker" />
+		<property name="repository" ref="tripRepository" />
+		<property name="builder" ref="tripBuilder" />
+		<property name="filter" ref="tripFilter" />
+		<property name="orderer" ref="tripOrderer" />
+	</bean>
+
+	<bean id="tripBuilder" class="business.trip_finder.builder.TripBuilderImpl">
+		<property name="pathFinder" ref="pathFinder" />
+	</bean>
+
+	<bean id="pathFinder" class="business.trip_finder.path_finder.BruteForcePathFinder" />
+
+	<bean id="tripOrderer" class="business.trip_finder.orderer.TripOrdererImpl" />
+
+	<bean id="tripRepository" class="business.trip_finder.repository.TripRepository">
+		<property name="hotelDao" ref="hotelDao" />
+		<property name="siteDao" ref="siteDao" />
+		<property name="transportDao" ref="transportDao" />
+	</bean>
+
+	<bean id="parametersTweaker" class="business.trip_finder.best_trip_finder.ParametersTweaker" />
+
+	<bean id="tripFilter" class="business.trip_finder.filter.TripFilterImpl" />
+
+	<!-- Dao beans -->
+	<bean id="hotelDao" class="persistence.daoImpl.HotelDaoImpl" />
+
+	<bean id="siteDao" class="persistence.daoImpl.SiteDaoImpl" />
+
+	<bean id="transportDao" class="persistence.daoImpl.TransportDaoImpl" />
+	
+	<!-- Persistence beans -->
+	<bean id="databaseManager" class="persistence.apiBDe.database.DatabaseImpl" />
+
+</beans>

@@ -1,0 +1,50 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>AGP Dream team plus plus</title>
+</h:head>
+<h:body>
+	<h2>Best trips for you</h2>
+
+	<h:form>
+		<h:dataTable value="#{searchTripResultBean.bestTrips}" var="trip"
+			border="1" cellpadding="5">
+
+			<h:column>
+				<f:facet name="header">Trip index</f:facet>
+                    #{searchTripResultBean.indexOf(trip) + 1}
+                    <!-- <p:rating value="#{trip.comfort}" /> -->
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Comfort rate</f:facet>
+				<h:outputText value="#{trip.comfort}">
+					<f:convertNumber pattern="#0.00" />
+				</h:outputText> / 5
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Total price</f:facet>
+				<h:outputText value="#{trip.price}">
+					<f:convertNumber pattern="#0.00" />
+				</h:outputText>€
+			</h:column>
+
+			<h:column>
+				<h:link value="Details" outcome="trip_details">
+					<!-- send index of the choosen trip in parameter -->
+					<f:param name="index" value="#{searchTripResultBean.indexOf(trip)}" />
+				</h:link>
+			</h:column>
+
+		</h:dataTable>
+	</h:form>
+
+</h:body>
+
+</html>

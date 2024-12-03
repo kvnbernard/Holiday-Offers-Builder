@@ -1,0 +1,144 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+	<title>AGP Dream team plus plus</title>
+</h:head>
+<h:body>
+	<h1>Trip informations</h1>
+	<!-- Only an action : search in the bestTrips list the choosen besTrip and define trip variable -->
+	#{tripBean.defineTrip(param['index'])} 
+
+	<h:form>
+		<p:tabView rendered="#{not empty tripBean.days}"
+			value="#{tripBean.days}" var="day">
+			<p:tab title="Day#{day.date}">
+					Total price : 
+					<h:outputText value="#{day.price}">
+					<f:convertNumber pattern="#0.00" />
+				</h:outputText>€
+					<br />
+				<h2>First hotel : #{day.startHotel.name}</h2>
+				<!-- If we don't have any excursions, we must change something -->
+				<c:choose>
+					<c:when test="#{day.excursions.isEmpty()}">
+						<p>No excursions for this day</p>
+					</c:when>
+					<c:otherwise>
+						<h3>Excursions</h3>
+						<!-- Excursions -->
+						<ui:repeat value="#{day.excursions}" var="excursion">
+							<p:separator style="height:10px;" />
+							<h:panelGrid columns="2">
+								<h:column>
+									<h:outputLabel value="#{excursion.price}">
+										<f:convertNumber pattern="Price : #0.00" />
+									</h:outputLabel>€
+								</h:column>
+								<h:column>
+									<h:outputLabel value="#{excursion.comfort}">
+										<f:convertNumber pattern="Comfort : #0.00" />
+									</h:outputLabel>
+								</h:column>
+							</h:panelGrid>
+							<!-- Hotels -->
+							<br />
+							<h:panelGrid columns="2">
+								<h:column>
+									From hotel
+									<h:panelGrid border="1">
+										<h:outputLabel>
+										#{excursion.departureHotel.name}
+										</h:outputLabel>
+										<h:outputLabel>
+										Price <h:outputText value="#{excursion.departureHotel.price}">
+												<f:convertNumber pattern="#0.00" />
+											</h:outputText>€
+										</h:outputLabel>
+										<h:outputLabel value="#{excursion.departureHotel.comfort}">
+											<f:convertNumber pattern="Comfort : #0.00" />
+										</h:outputLabel>
+										<h:outputLabel>
+										Prestations :
+										<ul>
+												<ui:repeat value="#{excursion.departureHotel.prestations}"
+													var="prestation">
+													<li>#{prestation.name}</li>
+												</ui:repeat>
+											</ul>
+										</h:outputLabel>
+									</h:panelGrid>
+								</h:column>
+								<br />
+								<br />
+								<h:column>
+									To hotel
+									<h:panelGrid border="1">
+										<h:outputLabel>
+										#{excursion.arrivalHotel.name}
+										</h:outputLabel>
+										<h:outputLabel>
+										Price <h:outputText value="#{excursion.arrivalHotel.price}">
+												<f:convertNumber pattern="#0.00" />
+											</h:outputText>€
+										</h:outputLabel>
+										<h:outputLabel value="#{excursion.arrivalHotel.comfort}">
+											<f:convertNumber pattern="Comfort : #0.00" />
+										</h:outputLabel>
+										<h:outputLabel>
+										Prestations :
+										<ul>
+												<ui:repeat value="#{excursion.arrivalHotel.prestations}"
+													var="prestation">
+													<li>#{prestation.name}</li>
+												</ui:repeat>
+											</ul>
+										</h:outputLabel>
+									</h:panelGrid>
+								</h:column>
+							</h:panelGrid>
+							<!-- Rides -->
+							<h4>Rides</h4>
+							<ui:repeat value="#{excursion.rides}" var="ride">
+								<p:separator style="width:50%;margin-left:0;" />
+								<h5>From #{ride.departure.name} To #{ride.arrival.name}</h5>
+								<p>
+									<strong>Transport</strong> : #{ride.transport.name} (speed :
+									#{ride.transport.speed} km/h)
+								</p>
+								<p>
+									<strong>Distance</strong> :
+									<h:outputLabel value="#{ride.distance}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputLabel>
+									km
+								</p>
+								<p>
+									<strong>Comfort</strong> :
+									<h:outputLabel value="#{ride.comfort}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputLabel>
+									/ 5
+								</p>
+								<p>
+									<strong>Price</strong> :
+									<h:outputLabel value="#{ride.price}">
+										<f:convertNumber pattern="#0.00" />
+									</h:outputLabel>
+									€
+								</p>
+							</ui:repeat>
+						</ui:repeat>
+					</c:otherwise>
+				</c:choose>
+			</p:tab>
+		</p:tabView>
+	</h:form>
+</h:body>
+
+</html>
